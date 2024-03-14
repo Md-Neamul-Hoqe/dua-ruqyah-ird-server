@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: [ "http://localhost:3000" ],
+        origin: [ "http://localhost:3000", "https://dua-ruqyah-ird-orpin.vercel.app" ],
         credentials: true,
     })
 );
@@ -4610,6 +4610,7 @@ async function run() {
                     console.error('Error executing query in /dua:', err.message);
                     res.status(500).send({ error: 'Internal Server Error' });
                 } else {
+                    console.log(rows);
                     res.send(rows);
                 }
             });
