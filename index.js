@@ -4571,7 +4571,19 @@ async function run() {
                     console.error('Error executing query in /categories:', err.message);
                     res.status(500).send({ error: 'Internal Server Error' });
                 } else {
-                    // console.log(rows);
+                    res.send(rows);
+                }
+            });
+        });
+
+        /* Get all duas of the category */
+        app.get('/api/v1/duas/:id', (req, res) => {
+            const { id } = req.params
+            db.all(`SELECT * FROM dua where id=${id}`, (err, rows) => {
+                if (err) {
+                    console.error('Error executing query in /categories:', err.message);
+                    res.status(500).send({ error: 'Internal Server Error' });
+                } else {
                     res.send(rows);
                 }
             });
@@ -4582,6 +4594,20 @@ async function run() {
             db.all('SELECT * FROM sub_category', (err, rows) => {
                 if (err) {
                     console.error('Error executing query in /sub-categories:', err.message);
+                    res.status(500).send({ error: 'Internal Server Error' });
+                } else {
+                    res.send(rows);
+                }
+            });
+        });
+
+        /* Get all dua of category */
+        app.get('/api/v1/dua/:slug', (req, res) => {
+            const { cat, subcat_id } = req.query
+
+            db.all(subcat_id ? `SELECT * FROM dua where cat_id=${cat} && subcat_id=${subcat_id}` : `SELECT * FROM dua where cat_id=${cat}`, (err, rows) => {
+                if (err) {
+                    console.error('Error executing query in /dua:', err.message);
                     res.status(500).send({ error: 'Internal Server Error' });
                 } else {
                     res.send(rows);
